@@ -62,3 +62,5 @@ streamlit run app.py
 *   Ensure Ollama is installed and running locally.
 *   The chatbot uses **ChromaDB** for local vector storage.
 *   All chat history is stored using **Streamlit's session state**, ensuring persistence across interactions.
+*   You can add your own data to the guide folder
+
