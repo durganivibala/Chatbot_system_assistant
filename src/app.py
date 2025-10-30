@@ -2,8 +2,8 @@ import streamlit as st
 from rag_engine import generate_response
 from memory_manager import ChatMemory
 
-st.set_page_config(page_title="PME Support Chatbot", page_icon="🤖")
-st.title("🤖 PME System Guide Assistant")
+st.set_page_config(page_title="Chatbot", page_icon="🤖")
+st.title("🤖 Assistant")
 
 if "memory" not in st.session_state:
     st.session_state.memory = ChatMemory()
