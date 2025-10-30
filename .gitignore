@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+env/
+.env
+*.env
+
+# Streamlit cache
+.streamlit/
+
+# Local vector DB
+src/chroma_db/
+chroma_db/
+*.sqlite3
+*.pickle
+*.bin
+src/chroma_db/9ff4df06-32e0-4a44-96ea-8e779be801ce/
+src/chroma_db/chroma.sqlite3
+
+# Ollama model files (local only)
+models/
+models/blobs/
+models/manifests/
+
+# Logs and temp files
+*.log
+tmp/
+uploads/
+
+# IDE / OS
+.vscode/
+.DS_Store
