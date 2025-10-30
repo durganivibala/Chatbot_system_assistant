@@ -7,7 +7,7 @@ import chromadb
 os.makedirs("chroma_db", exist_ok=True)
 
 # --- Load PDF content ---
-pdf_path = r"E:\Chatbot_PME\guide\PME System Guide 2024.pdf"
+pdf_path = r"path"
 reader = PdfReader(pdf_path)
 
 text = ""
