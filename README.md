@@ -7,9 +7,8 @@ A local Retrieval-Augmented Generation (RAG) chatbot powered by **Ollama (Llama3
 - RAG-based knowledge recall with ChromaDB
 - Persistent chat memory using Streamlit session state
 
----
 
-## 🧠 Setup Instructions
+Setup
 
 ###1️⃣ Create virtual environment
 ```bash
