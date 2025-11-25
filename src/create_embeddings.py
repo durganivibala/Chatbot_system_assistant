@@ -2,20 +2,23 @@ import os
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
 import chromadb
+import numpy as np
 
-# --- Ensure persistent directory ---
+
 os.makedirs("chroma_db", exist_ok=True)
 
-# --- Load PDF content ---
-pdf_path = r"path"
-reader = PdfReader(pdf_path)
+# Local paths (make sure these folders exist)
+PDF_PATH = r"C:/Chatbot_PME/guide/PME System Guide.pdf"
+model = SentenceTransformer('BAAI/bge-large-en-v1.5')
 
+reader = PdfReader(PDF_PATH)
 text = ""
 for page in reader.pages:
     text += page.extract_text() + "\n"
 
-# --- Split into chunks ---
-def chunk_text(text, chunk_size=800, overlap=100):
+
+def chunk_text(text, chunk_size=2500, overlap=200):
+
     chunks = []
     start = 0
     while start < len(text):
@@ -26,33 +29,31 @@ def chunk_text(text, chunk_size=800, overlap=100):
     return chunks
 
 chunks = chunk_text(text)
+print(f"📄 Split into {len(chunks)} chunks.")
 
-# --- Initialize sentence-transformer embeddings ---
-embedder = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-embeddings = embedder.encode(chunks, show_progress_bar=True)
+print("🔹 Loading embedding model...")
 
-# --- Initialize ChromaDB persistent client ---
-client = chromadb.PersistentClient(path= "chroma_db")
+embeddings = model.encode(chunks, show_progress_bar=True, convert_to_numpy=True)
+
+
+client = chromadb.PersistentClient(path="chroma_db")
 collection_name = "pme_guide"
 
-# --- If collection exists, clear it safely ---
 try:
     collection = client.get_collection(collection_name)
-    all_ids = collection.get()["ids"]
-    if all_ids:
-        print(f"🧹 Clearing {len(all_ids)} existing records from '{collection_name}'...")
-        collection.delete(ids=all_ids)
+    existing_ids = collection.get()["ids"]
+    if existing_ids:
+        print(f"🧹 Clearing {len(existing_ids)} existing entries...")
+        collection.delete(ids=existing_ids)
 except Exception:
-    # If collection doesn’t exist, create it fresh
     collection = client.create_collection(collection_name)
 
-# --- Add new embeddings ---
-print(f"💾 Adding {len(chunks)} new chunks...")
+print("💾 Adding new embeddings...")
 for i, chunk in enumerate(chunks):
     collection.add(
         ids=[str(i)],
         embeddings=[embeddings[i].tolist()],
-        documents=[chunk]
+        documents=[chunk],
     )
 
-print(f"✅ Successfully embedded {len(chunks)} chunks into ChromaDB.")
+print(f"✅ Embedded {len(chunks)} chunks successfully into ChromaDB.")
