@@ -8,7 +8,7 @@ import numpy as np
 os.makedirs("chroma_db", exist_ok=True)
 
 # Local paths (make sure these folders exist)
-PDF_PATH = r"C:/Chatbot_PME/guide/PME System Guide.pdf"
+PDF_PATH = "path"
 model = SentenceTransformer('BAAI/bge-large-en-v1.5')
 
 reader = PdfReader(PDF_PATH)
@@ -37,7 +37,7 @@ embeddings = model.encode(chunks, show_progress_bar=True, convert_to_numpy=True)
 
 
 client = chromadb.PersistentClient(path="chroma_db")
-collection_name = "pme_guide"
+collection_name = "name of the document"
 
 try:
     collection = client.get_collection(collection_name)
