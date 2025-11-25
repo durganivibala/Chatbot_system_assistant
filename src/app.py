@@ -2,7 +2,7 @@ import streamlit as st
 from rag_engine import generate_response
 from memory_manager import ChatMemory
 
-st.set_page_config(page_title="PME Support Chatbot", page_icon="🤖")
+st.set_page_config(page_title="Product Support Chatbot", page_icon="🤖")
 st.title("🤖 ChatlocalAI [Offline chatbot]")
 
 
